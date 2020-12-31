@@ -1,13 +1,13 @@
 import random
 import numpy as np
-import heapq
+
 
 NP = 1000  # number of population 种群规模
 NG = 200  # 最大代数
 L = 11  # 染色体编码长度
 CL = L * 2  # x1,x2
 Pc = 0.9  # crossover rate 交叉率
-Pm = 0.02  # mutation rate 变异率
+Pm = 0.1  # mutation rate 变异率
 min_ = -100  # 下界
 max_ = 100  # 上界
 """
@@ -119,3 +119,7 @@ def GA():
 
 if __name__ == '__main__':
     GA()
+    """
+    res: 4.9902189861827875 [0 1 1 1 1 1 1 0 0 1 1 1 0 0 0 0 0 1 1 1 0 1] 
+    解码后x1,x2: -1.221299462628238 2.8822667318026447
+    """

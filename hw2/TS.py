@@ -1,6 +1,5 @@
 import random
 import numpy as np
-import heapq
 
 NG = 100  # 迭代次数
 TL = int(np.sqrt(NG))  # tabu table length 禁忌长度
@@ -76,4 +75,7 @@ def TS():
 
 if __name__ == '__main__':
     TS()
-    """res; x1,x2, maxf(x1,x2): 0.018359276683048265 -0.025445725004183295 4.999014792499359"""
+    """
+    res; 
+    x1,x2, maxf(x1,x2): 0.018359276683048265 -0.025445725004183295 4.999014792499359
+    """
