@@ -7,7 +7,10 @@ min_ = -100  # 下界
 max_ = 100  # 上界
 T0 = 100  # initial T
 r = 0.99  # 降温rate
-Tf = 0.1  # 这样设置循环687次，感觉还行
+Tf = 0.1  # 这样设置外循环687次，感觉还行
+nTk = 100  # 内循环次数，随便设的
+bx1, bx2 = 0, 0  # 记录历史最优解
+Ebest = 100
 
 
 def JDS(x1, x2):
@@ -39,24 +42,39 @@ def update_neighbour(x1, x2):
 
 
 def SA():
+    global x1, x2
     x1, x2 = init()
-    Tk=T0
-    while Tk>=Tf:
-        n=0
-        Ecur=E(x1,x2)
-        Enb=[E(t1,t2) for t1,t2 in nb]
-        j=random.randint(0,len(Enb)-1)
-        if Enb[j]-Ecur<0:
-            x1,x2=nb[j]
-        else:
-            epsilon=random.random()
-            if np.exp(-(Enb[j]-Ecur)/Tk)>epsilon:
-                x1,x2=nb[j]
+    Tk = T0
+    global bx1,bx2,Ebest
+    while Tk >= Tf:  # 外循环
+        n = 0
+        while n <= nTk:  # 内循环
+            n += 1
+            Ecur = E(x1, x2)
+            if Ecur < Ebest:
+                bx1, bx2 = x1, x2
+                Ebest = Ecur
+            Enb = [E(t1, t2) for t1, t2 in nb]
+            j = random.randint(0, len(Enb) - 1)
+            if Enb[j] - Ecur < 0:  # 无条件转移
+                x1, x2 = nb[j]
+                update_neighbour(x1, x2)
             else:
-
-
-
+                epsilon = random.random()
+                if np.exp(-(Enb[j] - Ecur) / Tk) > epsilon:
+                    x1, x2 = nb[j]
+                    update_neighbour(x1, x2)
+                else:
+                    continue
+        print(x1, x2, JDS(x1, x2))
+        Tk *= r
+    print("-" * 20)
+    print(bx1, bx2, JDS(bx1, bx2))
 
 
 if __name__ == '__main__':
-    pass
+    SA()
+    """
+    res:
+    -1.3757807000657043 -2.692719768789436 4.97742399478207
+    """
